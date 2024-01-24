@@ -217,7 +217,7 @@ class TankGame:
     def shot_hit(self):
         print() # these are intentional, i like some spaces, when it prints. More readable.
         print("Hit! You have successfully eliminated the target.")
-        tg.generate_target()
+        self.generate_target()
         self.points += 50
         self.hits += 1
 
@@ -231,7 +231,7 @@ class TankGame:
             print(f"Total successful Hits: {self.hits}.")
             print("You are out of points. Game over!")
             print("Thank you for playing! See you next time!")
-            tg.end_hs()
+            self.end_hs()
             return True
 
 
@@ -251,7 +251,7 @@ class TankGame:
                 hs_archive[self.your_name] = self.hits
                 with open('tank_game_highscores.py', 'w') as file:
                     file.write(f"hs_archive = {hs_archive}")
-        tg.highscore()
+        self.highscore()
 
     # prints sorted highscore
     def highscore(self):
