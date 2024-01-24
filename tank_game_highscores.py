@@ -1,0 +1,1 @@
+hs_archive = {'JOHN': 1, 'PETER': 0, 'GARY': 4, 'TOM': 7}
