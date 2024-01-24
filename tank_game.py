@@ -47,9 +47,10 @@ class TankGame:
         for index, i in enumerate(range(self.N)):
             if index == 6:
                 print(f"{i} ", end="")
-                # using enumerate, so i can add ending to the last position of loop.
-                # so i can have points printed next to the game grid
-                # and i have changed T symbol to ↑, and made it turn according to direction
+                # using enumerate, to add ending to the last position of loop.
+                # so i can have points printed next to the game grid (as exercise requires).
+                # Edit. not the best way to print it like that
+                # And i have changed T symbol to ↑, and made it turn according to tank's facing
 
                 for ind, j in enumerate(range(self.N)):
                     if self.tank_loc_x == j and self.tank_loc_y == i and self.face == "east":
@@ -87,9 +88,10 @@ class TankGame:
                         print(self.points)
                     else:
                         print(" . ", end="")
-                        # i probably shouldn't do this "print lines", but looks nice. Just testing possibilities.
-                        # i noticed later i need to add more conditions to make it work right,
-                        # it probably was not worth it, but good for learning.
+                        # I should not have print points here that way (line 66).
+                        # Because it makes my future updates more difficult.
+                        # I didn't think of it at start, so i'll leave it like it is.
+                        # Print line bellow is more for testing things out as well.
                 print("|---------------------|-----------|")
             else:
                 print(f"{i} ", end="")
@@ -107,7 +109,6 @@ class TankGame:
                     else:
                         print(" . ", end="")
                 print()
-
     def left(self):
         if self.face == "north":
             self.face = "west"
@@ -128,7 +129,7 @@ class TankGame:
         elif self.face == "west":
             self.face = "north"
 
-    # while moving, forward, if my tank tries to go through the edge, it will spawn in another side.
+    # while moving, forward, if my tank tries to go through the edge, it will spawn on another side.
     def forward(self):
         self.points -= 10
         if self.face == "north":
@@ -168,7 +169,7 @@ class TankGame:
             if self.tank_loc_x == -1:
                 self.tank_loc_x = 6
 
-    # if my tank goes on the top of the target, it gets a hint to move away.
+    # if my tank goes on the top of the target, it gets a hint to move away (optional feature).
     def exact_loc(self):
         if self.enemy_x == self.tank_loc_x and self.enemy_y == self.tank_loc_y:
             print("You are over the target, it is too close to shoot, move next to it")
@@ -192,7 +193,7 @@ class TankGame:
         elif self.face == "south":
             self.shots_south += 1
 
-    # if tank locations is next to the enemy, and faces right direction it "Hits". (calls another function).
+    # my tank must be next to the enemy, and face it to "hit". (calls another function).
     def target_hit(self):
         if (self.enemy_x == self.tank_loc_x
                 and (self.enemy_y == self.tank_loc_y + 1 or (self.enemy_y == 0 and self.tank_loc_y == 6))
@@ -214,12 +215,13 @@ class TankGame:
             tg.shot_missed()
 
     def shot_hit(self):
-        print() # these are intentional, i like some spaces, when it prints
+        print() # these are intentional, i like some spaces, when it prints. More readable.
         print("Hit! You have successfully eliminated the target.")
         tg.generate_target()
         self.points += 50
         self.hits += 1
 
+    # missed shots takes 10 points as well in this world.
     def shot_missed(self):
         self.points -= 10
         print("You missed the shot :( You must be next to the target and face it to succeed.")
@@ -258,6 +260,48 @@ class TankGame:
         for player, score in sorted_top:
             print(player, "\t", score)
 
+    # Turbo mode. Optional feature. Tank jumps 3 "moves". Costs 40 points.
+    # Our playground is "round", so by crossing border, you just arrive to another side.
+    def turbomode(self):
+        self.points -= 40
+        if self.face == "south":
+            if self.tank_loc_y + 3 == 7:
+                self.tank_loc_y = 0
+            elif self.tank_loc_y + 3 == 8:
+                self.tank_loc_y = 1
+            elif self.tank_loc_y + 3 == 9:
+                self.tank_loc_y = 2
+            else:
+                self.tank_loc_y += 3
+        if self.face == "north":
+            if self.tank_loc_y - 3 == -1:
+                self.tank_loc_y = 6
+            elif self.tank_loc_y - 3 == -2:
+                self.tank_loc_y = 5
+            elif self.tank_loc_y - 3 == -3:
+                self.tank_loc_y = 4
+            else:
+                self.tank_loc_y -= 3
+        if self.face == "west":
+            if self.tank_loc_x - 3 == -1:
+                self.tank_loc_x = 6
+            elif self.tank_loc_x - 3 == -2:
+                self.tank_loc_x = 5
+            elif self.tank_loc_x - 3 == -3:
+                self.tank_loc_x = 4
+            else:
+                self.tank_loc_x -= 3
+        if self.face == "east":
+            if self.tank_loc_x + 3 == 7:
+                self.tank_loc_x = 0
+            elif self.tank_loc_x + 3 == 8:
+                self.tank_loc_x = 1
+            elif self.tank_loc_x + 3 == 9:
+                self.tank_loc_x = 2
+            else:
+                self.tank_loc_x += 3
+
+
 if __name__ == "__main__":
     # Initialize your game object
     tg = TankGame()
@@ -283,6 +327,11 @@ if __name__ == "__main__":
                 tg.exact_loc()
                 if tg.out_of_points():
                     break
+            elif command == "t":  ## new feature. Turbomode. Tank jumps 3 moves (costs 40 points) ##
+                tg.turbomode()
+                tg.exact_loc()
+                if tg.out_of_points():
+                    break
             elif command == "b":
                 tg.backward()
                 tg.exact_loc()
@@ -303,4 +352,5 @@ if __name__ == "__main__":
             else:
                 print()
                 print ("Enter right command: l - to steer left, r -  to steer right, f -  to move forward, "
-                       "b -  to move backwards, w - to shoot, top - to see highscore, end - to finsh the game ")
+                       "b -  to move backwards, w - to shoot, \nt -turbo mode (tank moves 3x further(costs 40 pts)),  "
+                       "top - to see highscore, end - to finsh the game. ")

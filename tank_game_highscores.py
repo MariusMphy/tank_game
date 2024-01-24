@@ -1,1 +1,1 @@
-hs_archive = {'JOHN': 1, 'PETER': 4, 'GARY': 4, 'TOM': 7}
+hs_archive = {'JOHN': 1, 'PETER': 4, 'GARY': 4, 'TOM': 7, 'MEGAN': 5}
