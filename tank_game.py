@@ -53,21 +53,44 @@ class TankGame:
 
                 for ind, j in enumerate(range(self.N)):
                     if self.tank_loc_x == j and self.tank_loc_y == i and self.face == "east":
-                        print(" → ", end="")
+                        if j == 6 and i == 6:
+                            print(" → ", end="Points: ")
+                            print(self.points)
+                        else:
+                            print(" → ", end="")
                     elif self.tank_loc_x == j and self.tank_loc_y == i and self.face == "west":
-                        print(" ← ", end="")
+                        if j == 6 and i == 6:
+                            print(" ← ", end="Points: ")
+                            print(self.points)
+                        else:
+                            print(" ← ", end="")
                     elif self.tank_loc_x == j and self.tank_loc_y == i and self.face == "north":
-                        print(" ↑ ", end="")
+                        if j == 6 and i == 6:
+                            print(" ↑ ", end="Points: ")
+                            print(self.points)
+                        else:
+                            print(" ↑ ", end="")
                     elif self.tank_loc_x == j and self.tank_loc_y == i and self.face == "south":
-                        print(" ↓ ", end="")
+                        if j == 6 and i == 6:
+                            print(" ↓ ", end="Points: ")
+                            print(self.points)
+                        else:
+                            print(" ↓ ", end="")
                     elif self.enemy_x == j and self.enemy_y == i:
-                        print(" X ", end="")
+                        if j == 6 and i == 6:
+                            print(" X ", end="Points: ")
+                            print(self.points)
+                        else:
+                            print(" X ", end="")
                     elif ind == 6:
                         print(" . ", end="Points: ")
                         print(self.points)
                     else:
                         print(" . ", end="")
-                print("|---------------------|-----------|") # this is just for fun. looks better to me :)
+                        # i probably shouldn't do this "print lines", but looks nice. Just testing possibilities.
+                        # i noticed later i need to add more conditions to make it work right,
+                        # it probably was not worth it, but good for learning.
+                print("|---------------------|-----------|")
             else:
                 print(f"{i} ", end="")
                 for j in range(self.N):
