@@ -198,21 +198,21 @@ class TankGame:
         if (self.enemy_x == self.tank_loc_x
                 and (self.enemy_y == self.tank_loc_y + 1 or (self.enemy_y == 0 and self.tank_loc_y == 6))
                 and self.face == "south"):
-            tg.shot_hit()
+            self.shot_hit()
         elif (self.enemy_x == self.tank_loc_x
               and (self.enemy_y == self.tank_loc_y - 1 or (self.enemy_y == 6 and self.tank_loc_y == 0))
               and self.face == "north"):
-            tg.shot_hit()
+            self.shot_hit()
         elif (self.enemy_y == self.tank_loc_y
               and (self.enemy_x == self.tank_loc_x + 1 or (self.enemy_x == 0 and self.tank_loc_x == 6))
               and self.face == "east"):
-            tg.shot_hit()
+            self.shot_hit()
         elif (self.enemy_y == self.tank_loc_y
               and (self.enemy_x == self.tank_loc_x - 1 or (self.enemy_x == 6 and self.tank_loc_x == 0))
               and self.face == "west"):
-            tg.shot_hit()
+            self.shot_hit()
         else:
-            tg.shot_missed()
+            self.shot_missed()
 
     def shot_hit(self):
         print() # these are intentional, i like some spaces, when it prints. More readable.
